@@ -1,0 +1,298 @@
+import re
+
+# Importing the 're' library to work with Regular Expressions in Python.
+# Regular Expressions (regex) are powerful tools for pattern matching and text processing.
+# This library allows us to define complex patterns of characters and check if specific strings match these patterns.
+# Common uses include searching for patterns in text, splitting strings based on patterns, and replacing parts of strings.
+
+
+file_path = '/content/drive/My Drive/Merge.csv'
+
+
+## Load data from CSV file using pandas with specified encoding
+data = pd.read_csv(file_path, encoding='ISO-8859-1', header=0)
+
+
+# Setting the encoding to 'ISO-8859-1', also known as Latin-1.
+# This encoding is used to ensure correct handling of Western European characters that are not covered by the basic ASCII encoding.
+# It includes characters with accents and other diacritical marks which are common in languages like French, Spanish, and German.
+# Using this encoding can help avoid issues with character misrepresentation in data processing.
+from collections import Counter
+# Importing the Counter class from the collections module.
+# Counter is a specialized dictionary used for counting hashable objects, essentially providing a tally of objects.
+# It is useful for quickly counting items in lists, analyzing frequency of elements, and for implementing algorithms that need element counting functionality.
+
+
+# Define a function to clean text, preserving numbers and letters while removing other symbols
+def clean_text(text):
+    if not isinstance(text, str):
+        return ""  # Return an empty string for non-string inputs
+    text = re.sub(r'\s+', ' ', text)  # Remove extra spaces
+    text = re.sub(r'[^\w\s]', '', text)  # Remove symbols, but keep letters and numbers
+    text = text.lower()  # Convert to lowercase
+    return text
+
+# Ensure there are no null values in 'Comment' or replace them with an empty string
+data['Comment'].fillna('', inplace=True)  # Replaces nulls with empty string
+
+# Apply the cleaning function to the 'Coment' column
+data['Comment'] = data['Comment'].apply(clean_text)
+
+# Create a list of all words in the 'cleaned_Comment' column
+all_words = []
+for comment in data['Comment']:
+    all_words.extend(comment.split())
+
+# Count the words
+word_counts = Counter(all_words)
+
+# Display the most common words
+print(word_counts.most_common(50))
+import nltk
+# Import the Natural Language Toolkit (NLTK) library ((This code is used to set up NLTK for stop word removal,
+#which is a common preprocessing step in text analysis.
+#It ensures we have the required resources to effectively filter out common words that usually don't contribute to the semantic meaning of the text.
+
+
+from nltk.corpus import stopwords
+# Import the stopwords corpus from NLTK
+
+#Stopwords are commonly used words in a language, such as "the", "is", "at", and "which",
+#that are often filtered out from text data before processing in natural language tasks.
+#They are typically removed because they carry minimal meaningful information and can distract from more significant words in text analysis,
+#machine learning models, or search queries.
+
+
+
+nltk.download('stopwords')
+# Download the stopwords dataset, necessary for stopwords removal
+
+
+
+# Define the function to remove stopwords
+def remove_stop_words(text):
+    stop_words = set(stopwords.words('english'))  # Set of English stop words
+    words = text.split()  # Split text into words
+    filtered_text = ' '.join(word for word in words if word not in stop_words)  # Remove stop words
+    return filtered_text
+
+# Assuming 'data' is your DataFrame and 'Coment' is the correct column
+data['Comment'] = data['Comment'].apply(clean_text)  # Initial text cleaning
+data['Comment'] = data['Comment'].apply(remove_stop_words)  # Remove stop words
+
+# Calculate word frequencies
+all_words = ' '.join(data['Comment']).split()
+word_counts = Counter(all_words)
+print(word_counts.most_common(50))
+
+
+# Define a set of English stop words from NLTK, plus some custom ones
+stop_words = set(stopwords.words('english'))
+
+# Add contractions and other phrases you want to remove, including common informal contractions
+additional_stops = ["dont", "arent", "isnt", "wasnt", "werent", "havent", "hasnt",
+                    "hadnt", "wont", "wouldnt", "shant", "shouldnt", "cant", "cannot",
+                    "couldve", "shouldve", "wouldve", "im", "youre", "hes", "shes",
+                    "its", "were", "theyre", "thats", "cant", "hes", "cant", "dont",
+                    "lets", "youre", "would", "could", "might", "ive", "youve", "didnt",
+                    "weve", "doesnt", "id", "wont", "ill", "couldnt", "upi", "wouldnt", "im"]
+
+# Combine the stop words
+stop_words.update(additional_stops)
+
+# Define a function to clean the text
+def clean_text(text):
+
+    # Convert to lower case
+    text = text.lower()
+
+    # Clean text from punctuation
+    text = re.sub(r'[^\w\s]', '', text)
+
+    # Split text into words
+    words = text.split()
+
+    # Remove stop words
+    cleaned_words = [word for word in words if word not in stop_words]
+
+    # Join words back to string
+    return ' '.join(cleaned_words)
+
+    # Specific removal of 'im'
+    words = [word for word in words if word != 'im']
+
+
+# Example usage
+text_example = "I'm going to the store, and I don't think it's a good idea."
+cleaned_text = clean_text(text_example)
+print(cleaned_text)
+
+# we can now proceed with using a Tokenizer
+from tensorflow.keras.preprocessing.text import Tokenizer
+
+
+# Initialize the tokenizer with a limit of 10,000 words and set to lowercase
+tokenizer = Tokenizer(num_words=10000, lower=True)
+
+
+# Use .values to ensure proper processing of data
+tokenizer.fit_on_texts(data['Comment'].values)
+
+
+# Convert texts to sequences of integers
+sequences = tokenizer.texts_to_sequences(data['Comment'].values)
+
+
+# Take a look at the word tokens
+word_index = tokenizer.word_index
+print(f'Found {len(word_index)} unique tokens.')
+
+from textblob import TextBlob  # Import the TextBlob library
+
+text = "Hello, please analyze this text."
+# Define a sample text that we want to analyze
+
+blob = TextBlob(text)  # Create a TextBlob object
+# TextBlob is used for processing textual data and it provides simple APIs for common natural language processing (NLP) tasks
+
+words = blob.words  # Tokenize the text into words using TextBlob
+# The 'words' property splits the text into a list of words
+
+print(words)  # Print the list of words
+# This prints out the words in the text, demonstrating how TextBlob tokenizes the text
+
+
+import pandas as pd
+from textblob import TextBlob
+
+# Load the dataset from a CSV file
+data_path = '/content/drive/My Drive/Merge.csv'
+data = pd.read_csv(data_path, encoding='ISO-8859-1')
+
+# Initialize new columns for polarity and subjectivity scores
+data['Polarity'] = 0.0
+data['Subjectivity'] = 0.0
+
+# Define a function to analyze sentiment of comments
+def analyze_sentiment(text):
+    """Analyzes the sentiment of the provided text using TextBlob and returns polarity and subjectivity."""
+    blob = TextBlob(str(text))
+    return blob.sentiment.polarity, blob.sentiment.subjectivity
+
+# Apply the sentiment analysis function to each comment in the DataFrame
+for index, row in data.iterrows():
+    polarity, subjectivity = analyze_sentiment(row['Comment'])
+    data.at[index, 'Polarity'] = polarity
+    data.at[index, 'Subjectivity'] = subjectivity
+
+# Display the first few rows of the data to verify the changes
+print(data.head())
+
+# Optionally, save the updated DataFrame back to CSV
+output_path = '/content/drive/My Drive/analyzed_data.csv'
+data.to_csv(output_path, index=False, encoding='ISO-8859-1')
+
+
+
+# Load the dataset
+data_path = '/content/drive/My Drive/Merge.csv'
+data = pd.read_csv(data_path, encoding='ISO-8859-1')
+
+# Define the sentiment analysis function
+def analyze_sentiment(text):
+    try:
+        blob = TextBlob(str(text))
+        return blob.sentiment.polarity, blob.sentiment.subjectivity
+    except:
+        return 0.0, 0.0
+
+# Apply the function using apply() for vectorized operations
+data[['Polarity', 'Subjectivity']] = data['Comment'].apply(
+    lambda x: pd.Series(analyze_sentiment(x))
+)
+
+# Save the DataFrame after processing every 50,000 rows to avoid losing data on crashes and to manage memory usage effectively
+chunk_size = 50000  # Reduce chunk size to manage memory better
+for start in range(0, data.shape[0], chunk_size):
+    end = min(start + chunk_size, data.shape[0])
+    output_path = f'/content/drive/My Drive/analyzed_data_part_{start//chunk_size + 1}.csv'
+    data.iloc[start:end].to_csv(output_path, index=False, encoding='ISO-8859-1')
+    print(f'Saved data from row {start} to {end}')
+
+# Optionally, save the entire DataFrame at the end if needed
+data.to_csv('/content/drive/My Drive/complete_analyzed_data.csv', index=False, encoding='ISO-8859-1')
+
+
+
+
+import os
+
+# Assume all files are stored in one directory on Google Drive
+folder_path = '/content/drive/My Drive/'
+files = os.listdir(folder_path)
+all_data = pd.DataFrame()
+
+# Loop through each file in the directory and merge them if they are part of the analyzed data
+for file in files:
+    if file.startswith('analyzed_data_part_'):
+        file_path = os.path.join(folder_path, file)
+        # Read each file with the specific encoding
+        temp_data = pd.read_csv(file_path, encoding='ISO-8859-1')
+        all_data = pd.concat([all_data, temp_data], ignore_index=True)
+
+# Save the combined data into a new single file with the same encoding
+all_data.to_csv('/content/drive/My Drive/complete_analyzed_data.csv', index=False, encoding='ISO-8859-1')
+
+# Display a portion of the combined data to verify it has been merged correctly
+print(all_data.head())
+
+
+
+
+
+
+# Load the complete dataset
+data = pd.read_csv('/content/drive/My Drive/complete_analyzed_data.csv', encoding='ISO-8859-1')
+
+# Calculate mean polarity and subjectivity
+average_polarity = data['Polarity'].mean()
+average_subjectivity = data['Subjectivity'].mean()
+
+# Display averages
+print("Average Polarity: ", average_polarity)
+print("Average Subjectivity: ", average_subjectivity)
+
+# Calculate distributions
+polarity_positive = (data['Polarity'] > 0).sum()
+polarity_negative = (data['Polarity'] < 0).sum()
+polarity_neutral = (data['Polarity'] == 0).sum()
+
+# Display distributions
+print("Positive Polarity Comments: ", polarity_positive)
+print("Negative Polarity Comments: ", polarity_negative)
+print("Neutral Polarity Comments: ", polarity_neutral)
+
+# The analysis can be extended to include visualizations and more detailed statistical analysis
+
+
+
+# Setting up the figure size and subplots
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)  # 1 row, 2 columns, 1st subplot
+sns.histplot(data['Polarity'], bins=30, kde=False, color='blue')
+plt.title('Histogram of Polarity')
+plt.xlabel('Polarity')
+plt.ylabel('Frequency')
+
+plt.subplot(1, 2, 2)  # 1 row, 2 columns, 2nd subplot
+sns.histplot(data['Subjectivity'], bins=30, kde=False, color='green')
+plt.title('Histogram of Subjectivity')
+plt.xlabel('Subjectivity')
+plt.ylabel('Frequency')
+
+# Show the plots
+plt.tight_layout()
+plt.show()
+
+
+
