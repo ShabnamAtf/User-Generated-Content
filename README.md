@@ -1,14 +1,57 @@
 # 🧠 User-Generated Content: Sentiment Analysis Project
 
-[![DOI]((https://ieeexplore.ieee.org/abstract/document/10732668))](https://doi.org/10.1109/ISTAS61960.2024.10732668)
+[![DOI](https://zenodo.org/badge/DOI/10.1109/ISTAS61960.2024.10732668.svg)](https://doi.org/10.1109/ISTAS61960.2024.10732668)
 
-📄 **Paper**: "Evaluating the Trustworthiness of UGC on Social Media" 
+📄 **Published Paper**:  
 
+**Title**: *Evaluating the Trustworthiness of User-Generated Content on Social Media Using Explainable AI*  
 Authors:  Zahra Atf; Peter R. Lewis; Nathan Lloyd 
 
-Published in: *IEEE Transactions on Technology and Society*  
+**Conference**: IEEE International Symposium on Technology and Society (ISTAS) 2024  
+🔗 [View the article on IEEE Xplore](https://ieeexplore.ieee.org/abstract/document/10732668)
 
-🔗 [[Read the article](https://doi.org/10.1109/ISTAS61960.2024.10732668](https://ieeexplore.ieee.org/abstract/document/10732668))
+---
+
+## ✨ Project Description
+
+This repository includes sentiment analysis notebooks and trust evaluation techniques for user-generated content (UGC) on social media. The code supports the findings and experiments reported in our IEEE ISTAS 2024 paper.
+
+---
+
+## 📂 Files Included
+
+- `Graph.ipynb`: Visualization of comment trends and trust clusters  
+- `Sentiment Analyze.ipynb`: Sentiment classification using BERT  
+- `UGC1.ipynb`: Exploratory analysis on Instagram comments  
+- `README.md`: Project overview and paper reference
+
+---
+
+## 🛠️ Requirements
+
+- Python 3.10+
+- Transformers (HuggingFace)
+- Pandas, NumPy, Matplotlib
+
+---
+
+## 🔬 Citation
+
+If you use this repository or build on our work, please cite:
+
+```bibtex
+@INPROCEEDINGS{10732668,
+  author={Atf, Zahra and Lewis, Peter R. and Lloyd, Nathan},
+  booktitle={2024 IEEE International Symposium on Technology and Society (ISTAS)}, 
+  title={Evaluating the Trustworthiness of User-Generated Content on Social Media}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-8},
+  keywords={Sentiment analysis;Social networking (online);User-generated content;Buildings;Psychology;Bidirectional control;Transformers;Encoding;Web sites;Multimedia communication;Brand Engagement;Sentiment Analysis;Trustworthiness;User-Generated Content (UGC)},
+  doi={10.1109/ISTAS61960.2024.10732668}}
+}
+
 
 ---
 
