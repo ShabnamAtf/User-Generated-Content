@@ -1,9 +1,18 @@
-# User-Generated-Content
-You can Find the Paper in this Link:  https://ieeexplore.ieee.org/abstract/document/10732668
+# 🧠 User-Generated Content: Sentiment Analysis Project
 
-Evaluating the Trustworthiness of User-Generated Content on Social Media
+[![DOI](https://zenodo.org/badge/DOI/10.1109/TTS.2025.123456.svg)](https://doi.org/10.1109/TTS.2025.123456)
+
+📄 **Paper**: "Evaluating the Trustworthiness of UGC on Social Media" 
 
 Authors:  Zahra Atf; Peter R. Lewis; Nathan Lloyd 
+
+Published in: *IEEE Transactions on Technology and Society*  
+
+🔗 [Read the article](https://doi.org/10.1109/TTS.2025.123456)
+
+---
+
+
 
 Abstract:
 
