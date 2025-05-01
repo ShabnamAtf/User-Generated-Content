@@ -1,6 +1,6 @@
 # 🧠 User-Generated Content: Sentiment Analysis Project
 
-[![DOI](https://zenodo.org/badge/DOI/10.1109/TTS.2025.123456.svg)](https://doi.org/10.1109/TTS.2025.123456)
+[![DOI]((https://ieeexplore.ieee.org/abstract/document/10732668))](https://doi.org/10.1109/ISTAS61960.2024.10732668)
 
 📄 **Paper**: "Evaluating the Trustworthiness of UGC on Social Media" 
 
@@ -8,7 +8,7 @@ Authors:  Zahra Atf; Peter R. Lewis; Nathan Lloyd
 
 Published in: *IEEE Transactions on Technology and Society*  
 
-🔗 [Read the article](https://doi.org/10.1109/TTS.2025.123456)
+🔗 [[Read the article](https://doi.org/10.1109/ISTAS61960.2024.10732668](https://ieeexplore.ieee.org/abstract/document/10732668))
 
 ---
 
